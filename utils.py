@@ -1,46 +1,30 @@
 # utils.py
 import time, sys
-def PrintSendQubit(a, b, lefttoright=True, bit = False, num_tabs=5, icon = "", pause= .3):
-   result = ""
-   basis = "+"
-   if icon == "":
-      if (a == 1):
-         if bit: icon = "0"
-         else: 
-            # icon = "|0>"
-            icon = "| "
-         # result = "0"
-      elif (b == 1):
-         if bit: icon = "1"
-         else: 
-            # icon = "|1>"
-            icon = "- "
-         result = "1"
-      else :
-         # icon = str(a) + "|0>+"+ str(b) + "|1>"
-         basis = "x"
-         if (str(b) =='-1/rt(2)') : 
-            result = "1"
-            icon = "\ "
-         else: 
-            result = "0"
-            icon = "/ "
-   result = icon
+def PrintSendQubit(basis, qubit, lefttoright=True, bit = False, num_tabs=5, icon = "", pause= .310, start_tab=0):
+   if basis == "+":
+      if (qubit  == 0):
+         icon = "| "
+      else:
+         icon = "- "
+   else:
+      if (qubit == 0):
+         icon = "/ "
+      else:
+         icon = "\ "
    for i in range(num_tabs):
       if lefttoright: 
-         if bit: s = "\t"*i + icon
-         else: s = basis + " , " + str(result) + "\t"*i + icon
+         if bit: s = "\t"*(i + start_tab) + icon
+         else: s = basis + " , " + str(icon) + "\t"*(i + start_tab) + icon
       else: 
          if bit: s = "\t"*(num_tabs-i) + icon
-         else: s = "\t"*(num_tabs-i) + icon + basis + " , " + str(result) 
+         else: s = "\t"*(num_tabs-i) + icon + basis + " , " + str(icon) 
       print(s)
       WriteOver(pause)
    if bit: s = icon
-   else: 
-      if lefttoright: s = basis + " , " + str(result) 
-      else: s = "\t"*(num_tabs)  + basis + " , " + str(result) 
-   print(s)
-   
+   elif (start_tab ==0): 
+      if lefttoright: s = "\t"*(start_tab) + basis + " , " + str(icon) 
+      else: s = "\t"*(num_tabs - start_tab)  + basis + " , " + str(icon) 
+   print("\t"*(start_tab) + s)
    sys.stdout.write("\033[F") #back to previous line
    
 

@@ -4,6 +4,7 @@ from qiskit import(QuantumCircuit,execute, Aer)
 from qiskit.visualization import plot_histogram
 from random import randrange
 from math import floor
+import time, sys
 
 NUM_TABS = 8
 
@@ -50,20 +51,20 @@ def AliceCreateQubit(EVE):
    if applyH:
       qc.h(0)
       basis = "x"
-      a = '1/rt(2)'
-      if bit: 
-         b = '-1/rt(2)'
-      else:
-         b = '1/rt(2)'
+      # a = '1/rt(2)'
+      # if bit: 
+      #    b = '-1/rt(2)'
+      # else:
+      #    b = '1/rt(2)'
    else:
       basis = "+"
-      if bit: 
-         a, b = 0,1
-      else:
-         a, b = 1, 0
+      # if bit: 
+      #    a, b = 0,1
+      # else:
+      #    a, b = 1, 0
    if EVE: 
-      MY_PrintSendQubit(a, b, lefttoright=True, bit = False, num_tabs=floor(NUM_TABS/2))
-   else: MY_PrintSendQubit(a,b)
+      MY_PrintSendQubit(basis, bit, lefttoright=True, bit = False, num_tabs=floor(NUM_TABS/2))
+   else: MY_PrintSendQubit(basis,bit)
    return qc, basis, bit
 
 def BobMeasureInBasis(qc):
@@ -104,7 +105,7 @@ def EveMeasureInBasis(qc):
    except:
       bit = 1
    MY_PrintMeasureQubit(basis, bit, floor(NUM_TABS/2))
-   sys.stdout.write("\033[F") #back to previous line
+   sys.stdout.write("\033[F") 
    return basis, bit, qc
 
 
@@ -181,8 +182,8 @@ def QKD(num_bits_sent, EVE, VIEW):
       else: print("FAILURE: ERROR IN PROTOCOL")
    print("\n")
 
-def MY_PrintSendQubit(a, b, lefttoright=True, bit = False, num_tabs=NUM_TABS, icon = "", pause  = .1):
-   if VIEW: PrintSendQubit(a, b, lefttoright, bit , num_tabs, icon, pause)
+def MY_PrintSendQubit(basis, qubit, lefttoright=True, bit = False, num_tabs=NUM_TABS, icon = "", pause  = .1, start_tab=0):
+   if VIEW: PrintSendQubit(basis, qubit, lefttoright, bit , num_tabs, icon, pause, start_tab)
 
 def MY_PrintMeasureQubit(basis, result, num_tabs=0): 
    if VIEW: PrintMeasureQubit(basis, result, num_tabs)
